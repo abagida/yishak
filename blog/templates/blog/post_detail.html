@@ -1,0 +1,90 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="col-sm-8 col-sm-offset-2">
+
+  <article class="post">
+    <header class="entry-header">
+      {% if post.published_date %}
+
+      <div class="entry-meta"> 
+       <span class="posted-on"><time class="entry-date published" date=""> on {{ post.published_date }}</time></span>            
+   </div> 
+
+   {% else %}
+   <a class="btn btn-default pull-right" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+   {% endif %}
+   {% if user.is_authenticated %}
+
+   <a class="btn btn-default pull-right" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+   <a class="btn btn-default pull-right" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+
+
+   {% endif %}
+
+   <h1 class="entry-title">{{ post.title }}</h1>
+</header> 
+<div class="entry-content"> 
+  <p>
+    {{ post.text|safe|linebreaks}}
+</p>
+
+</div> 
+</article><!-- #post-## -->
+<hr>
+
+
+<div id="comments"> 
+    <h3 class="comments-title">{{ post.approved_comments.count }} Comments</h3>
+    <a href="{% url 'add_comment_to_post' pk=post.pk %}" class="leave-comment">Leave a Comment</a>
+
+
+
+
+
+    {% for comment in post.comments.all %}
+    {% if user.is_authenticated or comment.approved_comment %}
+
+    <ol class="comments-list">
+      <li class="comment">
+
+        <div>
+
+          <div class="comment-meta">
+            <span class="author"><a href="#">{{ comment.author }}</a></span>
+            <span class="date"><a href="#">{{ comment.created_date }}</a></span>
+            {% if not comment.approved_comment %}
+                <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+            {% endif %}
+
+
+            <span class="reply"><a href="{% url 'add_comment_to_post' pk=post.pk %}">Reply</a></span>
+
+        </div>
+
+        <div class="comment-body">
+            {{ comment.text|linebreaks }}
+        </div>
+    </div>
+
+
+</li>
+
+</ol>
+    {% endif %}
+
+{% empty %}
+<p>No comments here yet :(</p>
+{% endfor %}
+<div class="clearfix"></div>
+
+<nav id="comment-nav-below" class="comment-navigation clearfix" role="navigation"><div class="nav-content">
+  <div class="nav-previous">&larr; Older Comments</div>
+  <div class="nav-next">Newer Comments &rarr;</div>
+</div></nav><!-- #comment-nav-below -->
+
+
+
+</div>
+</div> 
+{% endblock %}

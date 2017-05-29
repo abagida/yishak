@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<div class="col-sm-8 col-sm-offset-2">
+
+
+  {% for post in posts %}
+
+  <article class="post">
+
+    <header class="entry-header">
+
+      <div class="entry-meta"> 
+        <span class="posted-on"><time class="entry-date published" date="">{{post.published_date|date}}</time></span>           
+    </div>
+
+    <h1 class="entry-title"><a href="{% url 'post_detail' pk=post.pk %}" rel="bookmark"> {{ post.title }}</a></h1>
+</header>
+<div class="entry-content">
+  <p>
+    {{ post.text|safe|linebreaks}}
+</p>
+<a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
+
+</div>
+
+
+</article>
+{% endfor %}
+
+</div> 
+
+{% endblock %}
