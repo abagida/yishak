@@ -87,7 +87,7 @@ $.fn.typer = function(text, options){
     })(0);
 };
 
-            $('#type').typer([' Hey ! <b><i>this is yishak</i></b>', 'I make things that make people happy <b><b>', 'This is my website ', 'Let\'s get in touch <b>:)</b>' ]);
+            $('#type').typer([' Hey ! <b><i>this is yisehak</i></b>', 'I make things that make people happy <b><b>', 'This is my website ', 'Let\'s get in touch <b>:)</b>' ]);
 
 
 
